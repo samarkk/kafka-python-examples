@@ -74,7 +74,7 @@ ksql-datagen
 # just issue ksql-datagen
 # needs schema registry, message rate, key, value format, delimiter if using delimited format, iterations - if not specified ksql datagen will produce indefinitely , needs an avro schema file
 
-ksql-datagen schema=/mnt/c/Users/SAMAR/Onedrive/kafka_scripts/ksql/schemas/userprofile.avro format=json topic=USERPROFILE key=userid  iterations=1000 msgRate=1
+ksql-datagen schema=/home/samar/kafka-python-examples/ksql/schemas/userprofile.avro format=json topic=USERPROFILE key=userid  iterations=1000 msgRate=1
 
  select rowtime, firstname, lastname, citycode, rating from userprofilestream emit changes limit 5;
 
@@ -84,7 +84,7 @@ ksql-datagen schema=/mnt/c/Users/SAMAR/Onedrive/kafka_scripts/ksql/schemas/userp
  SELECT TIMESTAMPTOSTRING(ROWTIME, 'dd/MMM hh:mm:ss') as createtime, FIRSTNAME + ' ' + ucase(LASTNAME) as fullname from userprofilestream emit changes limit 10;
 
  # run a script to run a query
- run script '/mnt/c/Users/SAMAR/OneDrive/kafka_scripts/ksql/user_profile_pretty.ksql';
+ run script '/home/samar/kafka-python-examples/ksql/user_profile_pretty.ksql';
 
 # to see query details
 describe extended user_profile_pretty;
@@ -299,7 +299,7 @@ EOF
 
 kafka-topics --zookeeper localhost:2181 --create --partitions 1 --replication-factor 1 --topic WEATHERNESTED
 # jsonl is json lines
-cat /mnt/c/Users/SAMAR/Onedrive/kafka_scripts/ksql/demo-weather.jsonl | kafka-console-producer --broker-list localhost:9092 --topic WEATHERNESTED
+cat /home/samar/kafka-python-examples/ksql/demo-weather.jsonl | kafka-console-producer --broker-list localhost:9092 --topic WEATHERNESTED
 
 # see the nested stream in ksql console
 
@@ -338,7 +338,7 @@ select * from weathernow where city_name = 'Kota' emit changes;
 # see the ktable changes being reflect
 Let's make it rain! At UNIX prompt
 
-cat /mnt/c/Users/SAMAR/Onedrive/kafka_scripts/ksql/demo-weather-changes.jsonl | kafka-console-producer --broker-list localhost:9092 --topic WEATHERNESTED  
+cat /home/samar/kafka-python-examples/ksql/demo-weather-changes.jsonl | kafka-console-producer --broker-list localhost:9092 --topic WEATHERNESTED  
 
 select * from weathernow where city_name = 'Delhi' emit changes;
 
@@ -375,9 +375,9 @@ left join CITYTABLE ct on ct.citycode=dp2.citycode emit changes;
 ```
 ## merging streams
 ## datagen into the two topics
-ksql-datagen schema=/mnt/c/Users/SAMAR/Onedrive/kafka_scripts/ksql/schemas/riderequest-north.avro format=avro topic=riderequest-north key=rideid iterations=10000 msgRate=1
+ksql-datagen schema=/home/samar/kafka-python-examples/ksql/schemas/riderequest-north.avro format=avro topic=riderequest-north key=rideid iterations=10000 msgRate=1
 
-ksql-datagen schema=/mnt/c/Users/SAMAR/Onedrive/kafka_scripts/ksql/schemas/riderequest-south.avro format=avro topic=riderequest-south key=rideid maxInterval=5000 iterations=10000 msgRate=1
+ksql-datagen schema=/home/samar/kafka-python-examples/ksql/schemas/riderequest-south.avro format=avro topic=riderequest-south key=rideid maxInterval=5000 iterations=10000 msgRate=1
 
 create stream rr_north_raw with (kafka_topic='riderequest-north', value_format='avro');  
 
@@ -466,7 +466,21 @@ select user
 , GEO_DISTANCE(from_latitude, from_longitude, to_latitude, to_longitude, 'km') as dist
 from requested_journey;  
 
-select user + ' is travelling ' + cast(round(dist) as varchar) +' km to ' + city_name + 
-' where the weather is reported as ' + weather_description +  
+
+```
+
+
+```
+select user + ' is travelling ' + cast(round(dist) as varchar) +' km to ' +
+city_name + ' where the weather is reported as ' + weather_description + 
 ' and has received rainfall = ' + cast(rain as varchar) + ' '
 from ridetodest emit changes;  
+
+Sundar is travelling 164 km to Hyderabad where the weather is reported as light rain and has received rainfall = 3.0                 
+Manoj is travelling 175 km to Sonepat where the weather is reported as rainy and has received rainfall = 12.2                        
+Ananth is travelling 204 km to Bengaluru where the weather is reported as fog and has received rainfall = 2.0                        
+Niraj is travelling 815 km to Panipat where the weather is reported as rainy and has received rainfall = 12.0
+```
+
+
+create stream nsefo-stream 
