@@ -465,3 +465,8 @@ select user
 , rain 
 , GEO_DISTANCE(from_latitude, from_longitude, to_latitude, to_longitude, 'km') as dist
 from requested_journey;  
+
+select user + ' is travelling ' + cast(round(dist) as varchar) +' km to ' + city_name + 
+' where the weather is reported as ' + weather_description +  
+' and has received rainfall = ' + cast(rain as varchar) + ' '
+from ridetodest emit changes;  
