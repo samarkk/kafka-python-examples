@@ -1,0 +1,16 @@
+{
+    "name": "cassandra-fotable-sink",
+    "config": {
+        "connector.class": "com.datastax.oss.kafka.sink.CassandraSinkConnector",
+        "tasks.max": "3",
+        "topics": "nsefo-topic-avro",
+        "contactPoints": "127.0.0.1",
+        "loadBalancing.localDc": "datacenter1",
+        "topic.nsefo-topic-avro.codec.date": "yyyy-MM-dd",
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "value.converter": "io.confluent.connect.avro.AvroConverter",
+        "value.converter.schema.registry.url": "http://localhost:8081",
+        "topic.nsefo-topic-avro.finks.fotable.mapping": "symbol=value.symbol,expiry=value.expiry_dt,trdate=value.tmstamp,instrument=value.instrument,option_typ=value.option_typ,strike_pr=value.strike_pr,chgoi=value.chginoi,contracts=value.contracts,cpr=value.closepr,oi=value.openint,trdval=value.valinlakh,tstamp=value.tmstamp",
+        "topic.nsefo-topic-avro.finks.fotable.consistencyLevel": "LOCAL_QUORUM"
+    }
+}
