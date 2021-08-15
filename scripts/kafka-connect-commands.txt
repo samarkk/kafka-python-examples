@@ -1,21 +1,21 @@
 ######################################################################
 connect standalone file stream source
-#######################################################################
+######################################################################
 
 # create the topic
 kafka-topics --bootstrap-server localhost:9092 --create --topic file_connect_standalone --partitions 3 --replication-factor 1
 
 # run connect-standalone with the properties file
-connect-standalone  /home/samar/confluent/etc/kafka/connect-standalone.properties /home/samar/file_connector_standalone.properties
+connect-standalone  /home/samar/confluent/etc/kafka/connect-standalone.properties /home/samar/kafka-python-examples/connect-distributed-files/file_connector_standalone.properties
 
 # check the connector properties file
-cat /home/samar/file_connector_standalone.properties
+cat /home/samar/kafka-python-examples/connect-distributed-files/file_connector_standalone.properties
 
 # create the topic 
 kafka-topics --zookeeper localhost:2181 --create --topic file-connect-standalone --partitions 3 --replication-factor 1
 
 # create the file
-touch /home/samar demo_sa.txt
+touch /home/samar/demo_sa.txt
 
 # in windows run the console consumer and write to the file
 kafka-console-consumer --bootstrap-server localhost:9092 --topic file-connect-standalone --from-beginning
@@ -81,7 +81,7 @@ confluent-hub install confluentinc/kafka-connect-hdfs3:latest
 #  check the file hdfs3-sink.json
 # create the topic, write to the topic
 # in hdfs create the topics and logs directory
-curl -X POST -H "Content-Type: application/json" -d @/home/samar/hdfs3-sink-nsefo.json localhost:8083/connectors
+curl -X POST -H "Content-Type: application/json" -d @/home/samar/kafka-python-examples/connect-distributed-files/hdfs3-sink-nsefo.json localhost:8083/connectors
 
 # download avro-tools and use java -jar avro-tools to check out stuff
 
@@ -140,11 +140,11 @@ confluent-hub install confluentinc/kafka-connect-jdbc:10.0.2
 https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar
 # the jar has to be copied to confluent to confluent/share/confluent-hub-components/confluentinc-kafka-connect-jdbc/lib/
 
-curl -X POST -H "Content-Type: application/json" -d @/home/samar/mysql_source_connector.json localhost:8083/connectors
+curl -X POST -H "Content-Type: application/json" -d @/home/samar/kafka-python-examples/connect-distributed-files/mysql_source_connector.json localhost:8083/connectors
 
 curl -X POST -H "Content-Type: application/json" -d @/home/samar/mysql_source_incr_connector.json localhost:8083/connectors
 
-curl -X POST -H "Content-Type: application/json" -d @/home/samar/mysql_sink.json localhost:8083/connectors
+curl -X POST -H "Content-Type: application/json" -d @/home/samar/kafka-python-examples/connect-distributed-files/mysql_sink.json localhost:8083/connectors
 
  mysql -u root -pabcd testdb -e "insert into accounts(name) values ('newguy-3'), ('newguy-4'), ('newugy-5'), ('newguy-6'), ('newguy-7')"
  kafka-avro-console-producer \
@@ -179,3 +179,5 @@ tar xzf /home/samar/kafka-connect-cassandra-sink.tar.gz -C /home/samar/confluent
 # curl localhost:8083/connector-plugins should show the new plugin
 # follow the link below to create cassandra-sink.json
 https://github.com/DataStax-Examples/kafka-connector-sink-json/blob/master/connector-config.json
+
+curl -X POST -H "Content-Type: application/json" -d @/home/samar/kafka-python-examples/connect-distributed-files/cassandra_sink.json localhost:8083/connectors
