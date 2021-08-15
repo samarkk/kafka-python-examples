@@ -1,0 +1,122 @@
+########################################################################
+start zookeeper and kafka server
+########################################################################
+
+# start zookeeper and check the logs emitted to the console
+zookeeper-server-start /home/samar/confluent/etc/kafka/zookeeper.properties
+
+# stop it - Ctrl+c and start it as a backgroud daemon process
+zookeeper-server-start -daemon /home/samar/confluent/etc/kafka/zookeeper.properties
+
+# verify port 2181 occupied
+# tlpg is only a synonym for sudo netstat -tulpn | grep 
+tlpg 2181
+
+# the logs are in the logs directory under confluent
+ls -l /home/samar/confluent/logs
+# we can check the logs - last two hundred lines, tail continuously to fix problems and generally see what's going on
+tail -n 200 /home/samar/confluent/logs/zookeeper.out
+tail -f /home/samar/confluent/logs/zookeeper.out
+
+# zookeeper-shell localhost:2181
+# ls / 
+# we shall see brokers, topics as they are created
+
+# start kafka server
+# check out the server.properties file in the kafka configuration directory
+less /home/samar/confluent/etc/kafka/server.properties
+# broker.id has to be different for each broker
+# same zookeeper.connect will make different brokers part of a cluster
+
+# set the default number of partitions to three in server.properties
+vim /home/samar/confluent/etc/kafka/server.properties
+
+# start kafka-server in the foregroud
+kafka-server-start  /home/samar/confluent/etc/kafka/server.properties
+
+# stop and start as a daemon
+kafka-server-start -daemon /home/samar/confluent/etc/kafka/server.properties
+# verify port 9092 occupied
+tlpg 9092
+# logs will be in /home/samar/confluent/logs in server.log
+tail -f /home/samar/confluent/logs/server.log
+
+# check out the broker node in the zookeeper shell
+
+-----------------------------------------------------------------------
+
+########################################################################
+create, delete, topics
+########################################################################
+kafka-topics --zookeeper localhost:2181 --list
+
+kafka-topics --zookeeper localhost:2181 --create --topic first_topic --partitions 3 --replication-factor 1
+
+kafka-topics --zookeeper localhost:2181 --topic first_topic --describe
+
+kafka-topics --zookeeper localhost:2181 --topic --delete first_topic
+
+########################################################################
+tmux elementary commands and navigation
+########################################################################
+Ctrl+b " - split window into two panes horizontally
+Ctrl+b % - split window into two panes vertically
+Ctrl+b Ctrl+ArrowKey - resize in direction of arrow
+Ctrl+b ArrowKey - move to the pane in direction of arrow
+Ctrl+b o - move cursor to other pane
+Ctrl+b q + pane-number - move to the numbered pane
+
+########################################################################
+ check the kafka console consumer and kafka console producer in action
+########################################################################
+tmux and createt two panes
+in one pane
+kafka-console-producer --bootstrap-server localhost:9092 --topic first_topic
+in other pane
+kafka-console-consumer --bootstrap-server localhost:9092 --topic first_topic
+in the producer pane, type in stuff and see it appearing alongside in the consumer pane
+
+########################################################################
+explore visual tools for examinging zookeeper and kafkaserver through 
+docker containers
+########################################################################
+# start docker 
+sudo systemctl start docker
+# check docker service status
+sudo systemctl status docker
+
+# zoonavigator to check out zookeeper
+docker run -d -p 9001:9000 --name zoonavigator elkozmon/zoonavigator
+# note - have to connect to ip:2181, localhost:2181 or 127.0.0.1:2181 does not work
+# kafka manager to check out the kafka cluster
+# set the advertised listeners to the ip of the virtual machine
+# make a backup copy of server.properties
+cp /home/samar/confluent/etc/kafka/server.properties /home/samar/confluent/etc/kafka/server.properties.backup
+
+vim /home/samar/confluent/etc/kafka/server.properties
+change #advertised.listeners=PLAINTEXT://your.host.name:9092 to advertised.listeners=PLAINTEXT://192.168.181.138:9092 - use the ip for your virtual machine
+
+docker run -d -p 9000:9000 -e ZK_HOSTS="192.168.181.138:2181" hlebalbau/kafka-manager:stable
+
+# go to ipaddress_of_vm:9000
+# click on cluster -> add
+# provide zookeeper address as ipaddress_of_vm:2181 and save
+
+########################################################################
+explore kafka consumer groups
+########################################################################
+# set up tmux to have producer in one pane and three consumers, 
+part of a consumer group, one each in a different pane
+# start producer to write to a topic
+kafka-console-producer --topic first_topic --bootstrap-server localhost:9092
+# one by one start a consumer in a group
+kafka-console-consumer --bootstrap-server localhost:9092 --topic first_topic --group firstgroup --from-beginning
+# set up three more panes and start three more consumers to consume the
+topic 
+kafka-console-consumer --bootstrap-server localhost:9092 --topic first_topic --group secondgroup --from-beginning
+# divide the producer pane into two and start another producer to write to the same topic
+# shut down all and now explore producer and consumer in consumer groups
+with messages produced with a key
+kafka-console-producer --bootstrap-server localhost:9092 --topic key-topic --property parse.key=true --property key.separator=, --property ignore.errors=true
+# start three consumers 
+kafka-console-consumer --bootstrap-server localhost:9092 --topic key-topic --property print.key=true --from-beginning
