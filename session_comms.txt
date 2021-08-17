@@ -1,2 +1,4 @@
 kafka-topics --zookeeper localhost:2181 --list
 kafka-console-consumer --bootstrap-server localhost:9092 --topic ide-topic --from-beginning
+kafka-topics --zookeeper localhost:2181 --create --topic ide-topic-wkey --partitions 3 --replication-factor 1
+
