@@ -8,5 +8,6 @@ num.partitions=1
 to 
 num.partitions=3
 save and close
+/home/samar/data/201819/fo/fo01JAN2018bhav.csv
 
 
