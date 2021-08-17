@@ -1,4 +1,12 @@
 kafka-topics --zookeeper localhost:2181 --list
 kafka-console-consumer --bootstrap-server localhost:9092 --topic ide-topic --from-beginning
 kafka-topics --zookeeper localhost:2181 --create --topic ide-topic-wkey --partitions 3 --replication-factor 1
+gedit /home/samar/confluent/etc/kafka/server/properties
+replace #advertised.listeners host with ip of machine found using ifconfig
+and change 
+num.partitions=1 
+to 
+num.partitions=3
+save and close
+
 
