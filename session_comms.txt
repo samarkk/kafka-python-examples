@@ -19,4 +19,24 @@ hdfs dfsadmin -safemode get
 hdfs dfs -ls 
 hdfs dfs -ls /user/samar
 
+apache-3.11.11-cassandra/bin/cassandra
+
+ create keyspace nfinks with replication = {'class': 'SimpleStrategy', 'replication_factor': 1}';
+ 
+ CREATE TABLE finks.fotable (
+    symbol text,
+    expiry date,
+    trdate date,
+    instrument text,
+    option_typ text,
+    strike_pr decimal,
+    chgoi int,
+    contracts int,
+    cpr decimal,
+    oi int,
+    trdval decimal,
+    tstamp timestamp,
+    PRIMARY KEY ((symbol, expiry), trdate, instrument, option_typ, strike_pr)
+);
+
 
