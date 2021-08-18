@@ -12,5 +12,11 @@ save and close
 schema-registry-start -daemon /home/samar/confluent/etc/schema-registry/schema-registry.properties
 git clone https://github.com/samarkk/kafka-python-examples.git
 
+hdfs  --daemon start namenode
+hdfs --damon start datanode
+jps
+hdfs dfsadmin -safemode get
+hdfs dfs -ls 
+hdfs dfs -ls /user/samar
 
 
