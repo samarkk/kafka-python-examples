@@ -120,3 +120,15 @@ with messages produced with a key
 kafka-console-producer --bootstrap-server localhost:9092 --topic key-topic --property parse.key=true --property key.separator=, --property ignore.errors=true
 # start three consumers 
 kafka-console-consumer --bootstrap-server localhost:9092 --topic key-topic --property print.key=true --from-beginning
+
+##################################################################
+Important resources - URLs
+##################################################################
+
+https://dev.to/confluentinc/5-things-every-apache-kafka-developer-should-know-4nb
+
+https://www.confluent.io/blog/incremental-cooperative-rebalancing-in-kafka/
+
+https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/
+
+https://medium.com/bakdata/solving-my-weird-kafka-rebalancing-problems-c05e99535435
