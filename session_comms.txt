@@ -10,6 +10,7 @@ num.partitions=3
 save and close
 /home/samar/data/201819/fo/fo01JAN2018bhav.csv
 schema-registry-start -daemon /home/samar/confluent/etc/schema-registry/schema-registry.properties
+git clone https://github.com/samarkk/kafka-python-examples.git
 
 
 
