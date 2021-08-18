@@ -43,4 +43,7 @@ apache-cassandra-3.11.11-bin/bin/cassandra
     PRIMARY KEY ((symbol, expiry), trdate, instrument, option_typ, strike_pr)
 );
 
+# in a terminal
+pip install cassandra
+
 
