@@ -19,9 +19,13 @@ hdfs dfsadmin -safemode get
 hdfs dfs -ls 
 hdfs dfs -ls /user/samar
 
-apache-3.11.11-cassandra/bin/cassandra
+apache-cassandra-3.11.11-bin/bin/cassandra
 
- create keyspace nfinks with replication = {'class': 'SimpleStrategy', 'replication_factor': 1}';
+# stat cql
+apache-cassandra-3.11.11-bin/bin/cassandra
+
+
+ create keyspace finks with replication = {'class': 'SimpleStrategy', 'replication_factor': 1}';
  
  CREATE TABLE finks.fotable (
     symbol text,
