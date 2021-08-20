@@ -1,0 +1,3 @@
+{"city": {"name": "Delhi","citycode": "DL","latitude": 28.7041,"longitude": 77.1025},"description": "rainy","clouds": 94,"deg": 31,"humidity": 93,"pressure": 987.24,"rain": 10.3} 
+{"city": {"name": "Sonepat","citycode": "SO","latitude": 28.9378,"longitude": 77.3025},"description": "rainy","clouds": 95,"deg": 29,"humidity": 96,"pressure": 525.12,"rain": 12.2} 
+{"city": {"name": "Panipat","citycode": "PA","latitude": 31.4545,"longitude": 79.5879},"description": "rainy","clouds": 96,"deg": 32,"humidity": 94,"pressure": 925.12,"rain": 12}
