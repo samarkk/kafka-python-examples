@@ -44,6 +44,12 @@ apache-cassandra-3.11.11-bin/bin/cassandra
 );
 
 # in a terminal
-pip install cassandra
+pip install cassandra-driver
+
+# start yarn daemons
+yarn --daemon start resourcemanager
+yarn --daemon start nodemanager
+
+
 
 
