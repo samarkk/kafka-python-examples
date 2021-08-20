@@ -51,5 +51,5 @@ yarn --daemon start resourcemanager
 yarn --daemon start nodemanager
 
 
-
+hadoop jar /home/samar/hadoop330/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.0.jar wordcount fwc.txt wcount
 
