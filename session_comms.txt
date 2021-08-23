@@ -60,3 +60,5 @@ cd /home/samar
 rm -rf /home/samar/spark-python
 git clone https://github.com/samarkk/spark-python
 gedit /home/samar/spark-python/SparkLogProcessor.py
+
+spark-submit /home/samar/spark-python/SparkLogProcessor.py
