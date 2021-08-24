@@ -64,3 +64,5 @@ gedit /home/samar/spark-python/SparkLogProcessor.py
 spark-submit /home/samar/spark-python/SparkLogProcessor.py
 
 hive --service metastore 2>&1 &>/dev/null &
+
+echo "set enable-bracketed-paste off" >> /home/samar/.inputrc
