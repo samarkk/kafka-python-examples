@@ -62,3 +62,5 @@ git clone https://github.com/samarkk/spark-python
 gedit /home/samar/spark-python/SparkLogProcessor.py
 
 spark-submit /home/samar/spark-python/SparkLogProcessor.py
+
+hive --service metastore 2>&1 &>/dev/null &
