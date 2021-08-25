@@ -72,3 +72,6 @@ mysql -u root -p'puneetRai10198)' --local-infile < /home/samar/spark-python/scri
 
 # login to mysql 
 mysql -u root -p'puneetRai10198)' testdb
+
+# in another terminal start pyspark with mysql connector jar 
+pyspark --packages mysql:mysql-connector-java:8.0.26
