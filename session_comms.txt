@@ -68,7 +68,7 @@ hive --service metastore 2>&1 &>/dev/null &
 echo "set enable-bracketed-paste off" >> /home/samar/.inputrc
 
 # refresh the spark-python director - execute lines 59 to 61
-mysql -u root -p'puneetRai10198)' < /home/samar/spark-python/scripts/mysql_mock_table_creation.sql
+mysql -u root -p'puneetRai10198)' --local-infile < /home/samar/spark-python/scripts/mysql_mock_table_creation.sql
 
 # login to mysql 
 mysql -u root -p'puneetRai10198)' testdb
